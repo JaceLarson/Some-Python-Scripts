@@ -1,0 +1,57 @@
+import requests
+import json
+import praw
+
+#data = '{"client_id":"2_CQEaCc", "client_secret": "Fk5z8psXYGfdCpMVPECvQX593tZn6EGefuIRmL1hSYZ-YmwZaeHb1-aIOozuD7tu", "username": "jace5353", "password": "CPCbKrc24rwpN9#", "grant_type": "password"}'
+#response = requests.post('https://api.gfycat.com/v1/oauth/token', data)
+
+
+
+gfycatAPI = 'https://api.gfycat.com/v1/gfycats/'
+
+reddit = praw.Reddit(client_id='vk1MZ4SNqiKhaA',
+                     client_secret='lHcKVSbxj061riYB0NOBSi-LGh8',
+                     password='',
+                     user_agent='gfycat by /u/DevouringOne',
+                     username='DevouringOne')
+
+subreddit = reddit.subreddit('nba')
+
+reddit.read_only = True
+print(reddit.read_only)
+
+def requestApi(url):
+  req = requests.get(url)
+  return req.json()
+
+#data = '{"client_id":"2_CQEaCc",' \
+#       ' "client_secret": "Fk5z8psXYGfdCpMVPECvQX593tZn6EGefuIRmL1hSYZ-YmwZaeHb1-aIOozuD7tu",' \
+#       ' "grant_type": "client_credentials"}'
+
+data = '{"fetchUrl":"https://streamable.com/2szae","title":"Sabonis"}'
+
+
+
+for submission in subreddit.stream.submissions():
+    #print(submission.url)
+    if 'streamable' in submission.url:
+        URLtobeconverted = submission.url
+        title = submission.title
+        print(URLtobeconverted)
+        data = '{"fetchUrl":"'+URLtobeconverted+'","title":"'+title+'"}'
+        response = requests.post(gfycatAPI, data) #This line is where the gfycat is created
+        json_data = json.loads(response.text)
+        print(json_data)
+
+
+
+
+
+
+
+
+
+
+
+
+
