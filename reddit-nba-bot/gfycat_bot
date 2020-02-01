@@ -36,12 +36,17 @@ for submission in subreddit.stream.submissions():
     #print(submission.url)
     if 'streamable' in submission.url:
         URLtobeconverted = submission.url
-        title = submission.title
+        #title = submission.title
+        title = "gfycat mirror"
         print(URLtobeconverted)
         data = '{"fetchUrl":"'+URLtobeconverted+'","title":"'+title+'"}'
         response = requests.post(gfycatAPI, data) #This line is where the gfycat is created
         json_data = json.loads(response.text)
         print(json_data)
+        print(json_data['gfyname'])
+        gfyname = json_data['gfyname']
+        COMMENT_MSG = "Here is a [Gfycat mirror of this Streamable link](https://gfycat.com/{0})".format(gfyname)
+        submission.reply(COMMENT_MSG)
 
 
 
